@@ -8,6 +8,9 @@
  * @author Adm
  */
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
@@ -35,9 +38,18 @@ public class ProdutosDAO {
         return listagem;
     }
 
-    boolean salvar(ProdutosDTO p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean salvar(ProdutosDTO p) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter("produtos.txt", true))) {
+        String linha = p.getId() + ";" + p.getNome() + ";" + p.getValor() + ";" + p.getStatus();
+        bw.write(linha);
+        bw.newLine();
+        return true;
+    } catch (IOException e) {
+        System.out.println("Erro ao salvar produto: " + e.getMessage());
+        return false;
     }
+}
+
     
     
     

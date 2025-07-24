@@ -17,6 +17,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
      */
     public cadastroVIEW() {
         initComponents();
+        configurarEventos();
     }
 
     /**
@@ -175,18 +176,23 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProdutosActionPerformed
 
     private void SalvarbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalvarbtnActionPerformed
-        String nome = txtNome.getText();
-    double preco = Double.parseDouble(txtPreco.getText());
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SalvarbtnActionPerformed
+private void configurarEventos() {
+    Salvarbtn.addActionListener(e -> {
+    ProdutosDTO p = new ProdutosDTO();
+    p.setId(null);
+    p.setNome(cadastroNome.getText());
+    p.setValor(Integer.parseInt(cadastroValor.getText()));
+    p.setStatus("Disponível");
 
-    ProdutosDTO p = new ProdutosDTO(nome, preco);
     ProdutosDAO dao = new ProdutosDAO();
-
     boolean sucesso = dao.salvar(p);
+
     String mensagem = sucesso ? "Cadastro realizado com sucesso!" : "Erro ao cadastrar produto.";
     JOptionPane.showMessageDialog(null, mensagem);
-    }//GEN-LAST:event_SalvarbtnActionPerformed
-
-    /**
+    });
+}    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
