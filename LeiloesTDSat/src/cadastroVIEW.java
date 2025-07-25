@@ -18,6 +18,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
     public cadastroVIEW() {
         initComponents();
         configurarEventos();
+        
     }
 
     /**
@@ -180,10 +181,28 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_SalvarbtnActionPerformed
 private void configurarEventos() {
     Salvarbtn.addActionListener(e -> {
+    String nome = cadastroNome.getText();
+    String valorStr = cadastroValor.getText();
+
+    // Verificação de nome vazio ou valor vazio
+    if (nome.trim().isEmpty() || valorStr.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Por favor, preencha os campos Nome e/ou Valor.");
+        return; // cancela a execução do restante do código
+    }
+
+    // Tentativa de converter o valor em número
+    int valor;
+    try {
+        valor = Integer.parseInt(valorStr);
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(null, "O campo Valor deve ser um número válido.");
+        return;
+    }
+
     ProdutosDTO p = new ProdutosDTO();
-    p.setId(null);
-    p.setNome(cadastroNome.getText());
-    p.setValor(Integer.parseInt(cadastroValor.getText()));
+    p.setId(null); 
+    p.setNome(nome);
+    p.setValor(valor);
     p.setStatus("Disponível");
 
     ProdutosDAO dao = new ProdutosDAO();
@@ -191,7 +210,7 @@ private void configurarEventos() {
 
     String mensagem = sucesso ? "Cadastro realizado com sucesso!" : "Erro ao cadastrar produto.";
     JOptionPane.showMessageDialog(null, mensagem);
-    });
+});
 }    /**
      * @param args the command line arguments
      */
