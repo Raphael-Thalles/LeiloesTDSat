@@ -24,22 +24,7 @@ import java.sql.Statement;
 
 public class ProdutosDAO {
 
-    public void salvarProduto(ProdutosDTO produto) {
-        String sql = "INSERT INTO produtos (nome, valor) VALUES (?, ?)";
-
-        try (Connection conn = conectaDAO.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, produto.getNome());
-            stmt.setDouble(2, produto.getValor());
-            stmt.executeUpdate();
-
-            System.out.println("Produto salvo com sucesso!");
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao salvar produto: " + e.getMessage());
-        }
-    }
+   
 
     public List<ProdutosDTO> listarProdutos() {
         List<ProdutosDTO> lista = new ArrayList<>();
@@ -54,6 +39,7 @@ public class ProdutosDAO {
                 p.setId(rs.getInt("id"));
                 p.setNome(rs.getString("nome"));
                 p.setValor(rs.getInt("valor"));
+                p.setStatus(rs.getString("status"));
                 lista.add(p);
             }
 
