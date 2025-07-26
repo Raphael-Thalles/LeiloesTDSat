@@ -4,3 +4,4 @@ null;Celular;340;Disponível
 null;Celular;400;Disponível
 null;celulose;400;Disponível
 null;celi;388;Disponível
+null;Celular;340;Disponível

@@ -154,7 +154,8 @@ public class listagemVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 private void listarProdutos() {
     ProdutosDAO dao = new ProdutosDAO();
-    ArrayList<ProdutosDTO> lista = dao.listarProdutos();
+   ArrayList<ProdutosDTO> lista = new ArrayList<>(dao.listarProdutos());
+
 
     DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
     model.setRowCount(0); // Limpa a tabela antes de adicionar novos dados

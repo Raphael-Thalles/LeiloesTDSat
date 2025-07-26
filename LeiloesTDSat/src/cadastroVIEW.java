@@ -167,7 +167,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
         produto.setStatus(status);
         
         ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
+        produtodao.salvarProduto(produto);
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
@@ -180,7 +180,7 @@ public class cadastroVIEW extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_SalvarbtnActionPerformed
 private void configurarEventos() {
-    Salvarbtn.addActionListener(e -> {
+    btnCadastrar.addActionListener(e -> {
     String nome = cadastroNome.getText();
     String valorStr = cadastroValor.getText();
 

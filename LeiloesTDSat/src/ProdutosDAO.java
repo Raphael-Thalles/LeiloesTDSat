@@ -15,44 +15,72 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.ArrayList;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 
 public class ProdutosDAO {
-    
-    Connection conn;
-    PreparedStatement prep;
-    ResultSet resultset;
-    ArrayList<ProdutosDTO> listagem = new ArrayList<>();
-    
-    public void cadastrarProduto (ProdutosDTO produto){
-        
-        
-        //conn = new conectaDAO().connectDB();
-        
-        
-    }
-    
-    public ArrayList<ProdutosDTO> listarProdutos(){
-        
-        return listagem;
+
+    public void salvarProduto(ProdutosDTO produto) {
+        String sql = "INSERT INTO produtos (nome, valor) VALUES (?, ?)";
+
+        try (Connection conn = conectaDAO.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, produto.getNome());
+            stmt.setDouble(2, produto.getValor());
+            stmt.executeUpdate();
+
+            System.out.println("Produto salvo com sucesso!");
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao salvar produto: " + e.getMessage());
+        }
     }
 
-    public boolean salvar(ProdutosDTO p) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter("produtos.txt", true))) {
-        String linha = p.getId() + ";" + p.getNome() + ";" + p.getValor() + ";" + p.getStatus();
-        bw.write(linha);
-        bw.newLine();
+    public List<ProdutosDTO> listarProdutos() {
+        List<ProdutosDTO> lista = new ArrayList<>();
+        String sql = "SELECT * FROM produtos";
+
+        try (Connection conn = conectaDAO.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                ProdutosDTO p = new ProdutosDTO();
+                p.setId(rs.getInt("id"));
+                p.setNome(rs.getString("nome"));
+                p.setValor(rs.getInt("valor"));
+                lista.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar produtos: " + e.getMessage());
+        }
+
+        return lista;
+    }
+  public boolean salvar(ProdutosDTO produto) {
+    String sql = "INSERT INTO produtos (nome, valor, status) VALUES (?, ?, ?)";
+
+    try (Connection conn = conectaDAO.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, produto.getNome());
+        stmt.setDouble(2, produto.getValor());
+        stmt.setString(3, produto.getStatus());
+
+        stmt.executeUpdate();
         return true;
-    } catch (IOException e) {
+
+    } catch (SQLException e) {
         System.out.println("Erro ao salvar produto: " + e.getMessage());
         return false;
     }
 }
 
-    
-    
-    
-        
-}
 
+}
