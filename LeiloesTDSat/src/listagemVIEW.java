@@ -1,5 +1,9 @@
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -136,11 +140,21 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-        
-        ProdutosDAO produtosdao = new ProdutosDAO();
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
+       String idTexto = id_produto_venda.getText();
+
+    try {
+        int id = Integer.parseInt(idTexto); // transforma o texto em número
+        ProdutosDAO dao = new ProdutosDAO();
+        dao.venderProduto(id); // chama o método de venda
+
+        JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
+        listarProdutos(); // atualiza a tabela na tela
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "ID inválido. Insira um número.");
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao vender produto: " + e.getMessage());
+    }
         listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
 
@@ -153,21 +167,24 @@ public class listagemVIEW extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnVoltarActionPerformed
 private void listarProdutos() {
-    ProdutosDAO dao = new ProdutosDAO();
-   ArrayList<ProdutosDTO> lista = new ArrayList<>(dao.listarProdutos());
-
-
-    DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
-    model.setRowCount(0); // Limpa a tabela antes de adicionar novos dados
-
-    for (ProdutosDTO p : lista) {
-        model.addRow(new Object[]{
-            p.getId(),
-            p.getNome(),
-            p.getValor(),
-            p.getStatus()
-        });
-    }
+        try {
+            ProdutosDAO dao = new ProdutosDAO();
+            ArrayList<ProdutosDTO> lista = new ArrayList<>(dao.listarProdutos());
+            
+            
+            DefaultTableModel model = (DefaultTableModel) listaProdutos.getModel();
+            model.setRowCount(0); // Limpa a tabela antes de adicionar novos dados
+            
+            for (ProdutosDTO p : lista) {
+                model.addRow(new Object[]{
+                    p.getId(),
+                    p.getNome(),
+                    p.getValor(),
+                    p.getStatus()
+                });
+            }   } catch (SQLException ex) {
+            Logger.getLogger(listagemVIEW.class.getName()).log(Level.SEVERE, null, ex);
+        }
 }
 
     

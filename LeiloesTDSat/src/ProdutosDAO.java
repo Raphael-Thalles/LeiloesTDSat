@@ -23,9 +23,11 @@ import java.sql.Statement;
 
 
 public class ProdutosDAO {
-
+private Connection conexao;
    
-
+public ProdutosDAO() throws SQLException {
+    this.conexao = conectaDAO.getConnection(); 
+}
     public List<ProdutosDTO> listarProdutos() {
         List<ProdutosDTO> lista = new ArrayList<>();
         String sql = "SELECT * FROM produtos";
@@ -68,5 +70,23 @@ public class ProdutosDAO {
     }
 }
 
+  public void venderProduto(int idProduto) {
+        Connection conn = conectaDAO.getConnection();
+        if (conn != null) {
+            try {
+                String sql = "UPDATE produtos SET status = 'Vendido' WHERE id = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, idProduto);
+                stmt.executeUpdate();
 
+                // Se quiser, pode fechar os recursos aqui
+                stmt.close();
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println("Erro ao atualizar produto: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Falha na conexão com o banco.");
+        }
+    }
 }
