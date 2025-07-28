@@ -89,4 +89,26 @@ public ProdutosDAO() throws SQLException {
             System.out.println("Falha na conexão com o banco.");
         }
     }
+  
+  public List<ProdutosDTO> listarProdutosVendidos() throws SQLException {
+    List<ProdutosDTO> vendidos = new ArrayList<>();
+    String sql = "SELECT id, nome, valor, status FROM produtos WHERE status = 'vendido'";
+
+    try (Connection con = conectaDAO.getConnection();
+         PreparedStatement stmt = con.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            ProdutosDTO p = new ProdutosDTO();
+            p.setId(rs.getInt("id"));
+            p.setNome(rs.getString("nome"));
+            p.setValor(rs.getInt("valor")); 
+            p.setStatus(rs.getString("status")); 
+            vendidos.add(p);
+        }
+    }
+
+    return vendidos;
+}
+
 }
