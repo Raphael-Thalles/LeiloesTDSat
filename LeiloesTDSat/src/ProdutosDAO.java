@@ -30,7 +30,7 @@ public ProdutosDAO() throws SQLException {
 }
     public List<ProdutosDTO> listarProdutos() {
         List<ProdutosDTO> lista = new ArrayList<>();
-        String sql = "SELECT * FROM produtos";
+        String sql = "SELECT * FROM produtos Where status = 'Disponivel'";
 
         try (Connection conn = conectaDAO.getConnection();
              Statement stmt = conn.createStatement();
@@ -92,7 +92,7 @@ public ProdutosDAO() throws SQLException {
   
   public List<ProdutosDTO> listarProdutosVendidos() throws SQLException {
     List<ProdutosDTO> vendidos = new ArrayList<>();
-    String sql = "SELECT id, nome, valor, status FROM produtos WHERE status = 'vendido'";
+    String sql = "SELECT id, nome, valor, status FROM produtos WHERE status = 'Vendido'";
 
     try (Connection con = conectaDAO.getConnection();
          PreparedStatement stmt = con.prepareStatement(sql);
