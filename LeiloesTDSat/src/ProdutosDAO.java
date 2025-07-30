@@ -30,7 +30,7 @@ public ProdutosDAO() throws SQLException {
 }
     public List<ProdutosDTO> listarProdutos() {
         List<ProdutosDTO> lista = new ArrayList<>();
-        String sql = "SELECT * FROM produtos Where status = 'Disponivel'";
+        String sql = "SELECT * FROM produtos Where status = 'A Venda'";
 
         try (Connection conn = conectaDAO.getConnection();
              Statement stmt = conn.createStatement();

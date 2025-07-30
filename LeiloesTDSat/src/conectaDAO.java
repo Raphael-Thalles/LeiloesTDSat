@@ -20,7 +20,7 @@ public class conectaDAO {
     public static Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/estoqueleilao?useSSL=false&serverTimezone=UTC";
+            String url = "jdbc:mysql://localhost:3306/uc11?useSSL=false&serverTimezone=UTC";
             String user = "root";
             String password = "Derpixon_96";
             return DriverManager.getConnection(url, user, password);
